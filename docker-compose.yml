@@ -10,8 +10,6 @@ services:
     restart: always
 
   nginx:
-    build:
-      context: .
     image: jonasal/nginx-certbot:latest
     restart: unless-stopped
     environment:
