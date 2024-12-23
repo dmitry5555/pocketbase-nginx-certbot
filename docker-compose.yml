@@ -7,6 +7,8 @@ services:
       dockerfile: pocketbase/Dockerfile
     volumes:
       - ./pocketbase:/pb/pb_data
+      - letsencrypt:/etc/letsencrypt
+      - letsencrypt-data:/var/lib/letsencrypt
     restart: always
 
   nginx:
