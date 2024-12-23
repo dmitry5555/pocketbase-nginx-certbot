@@ -10,6 +10,8 @@ services:
     restart: always
 
     nginx:
+      build:
+        context: .
       image: jonasal/nginx-certbot:latest
       restart: unless-stopped
       environment:
@@ -21,7 +23,7 @@ services:
         - 443:443
       volumes:                                    # Storage can be either a
         - nginx_secrets:/etc/letsencrypt          # Docker managed volume (see list at the bottom)
-        - ./user_conf.d:/etc/nginx/user_conf.d    # or a host mount with a relative or full path.
+        - ./nginx/user_conf.d:/etc/nginx/user_conf.d    # or a host mount with a relative or full path.
 
 volumes:
   nginx_secrets:
