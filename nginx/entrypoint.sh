@@ -35,7 +35,7 @@ server {
     server_name $DOMAIN;
 
     ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$OMAIN/privkey.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
 
     # Базовые SSL настройки
     ssl_protocols TLSv1.2 TLSv1.3;
