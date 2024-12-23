@@ -20,5 +20,9 @@ fi
 cp /etc/nginx/nginx.conf.ssl /etc/nginx/nginx.conf
 nginx -s stop
 
+while :; do
+    sleep 48h
+    certbot renew --quiet
+done &
 # Запускаем nginx с SSL
 exec nginx -g 'daemon off;'
