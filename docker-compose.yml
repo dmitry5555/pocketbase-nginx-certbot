@@ -20,8 +20,8 @@ services:
       dockerfile: pocketbase/Dockerfile
     volumes:
       - ./pocketbase:/pb/pb_data
-      - letsencrypt:/etc/letsencrypt
-      - letsencrypt-data:/var/lib/letsencrypt
+      - ./pocketbase/null:/etc/letsencrypt
+      - ./pocketbase/null:/var/lib/letsencrypt
     restart: always
 
 volumes:
