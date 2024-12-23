@@ -1,17 +1,19 @@
-# Используем официальный образ Nginx
-FROM nginx:alpine
+FROM nginx:latest
 
-# Устанавливаем certbot для автоматического получения сертификатов
-RUN apk add --no-cache certbot bash
+RUN apt-get update && apt-get install -y certbot python3-certbot-nginx
 
-# Копируем конфигурацию Nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Рабочая директория
-WORKDIR /etc/letsencrypt
+COPY ./nginx/init-letsencrypt.sh /init-letsencrypt.sh
+RUN chmod +x /init-letsencrypt.sh
 
-# Создаем директорию для веб-сайта
-VOLUME ["/etc/letsencrypt", "/var/www/certbot"]
+VOLUME ["/etc/letsencrypt", "/var/lib/letsencrypt"]
 
-# Открываем порты для HTTP и HTTPS
+# RUN mkdir -p /var/www/certbot
+# RUN mkdir -p ./certbot/www
+# RUN mkdir -p ./certbot/conf
+
 EXPOSE 80 443
+
+CMD ["/bin/bash", "-c", "/init-letsencrypt.sh && nginx -g 'daemon off;'"]
+# CMD ["nginx", "-g", "daemon off;"]
