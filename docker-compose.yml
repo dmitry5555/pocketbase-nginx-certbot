@@ -4,7 +4,7 @@ services:
   pocketbase:
     build:
       context: .
-      dockerfile: pocketbase/Dockerfile
+      dockerfile: ./pocketbase/Dockerfile
     volumes:
       - ./pocketbase:/pb/pb_data
     restart: always
