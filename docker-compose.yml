@@ -1,11 +1,23 @@
 
 services:
 
+  pocketbase:
+    build:
+      context: .
+      dockerfile: pocketbase/Dockerfile
+    volumes:
+      - ./pocketbase:/pb/pb_data
+      # - ./pocketbase/null:/etc/letsencrypt
+      # - ./pocketbase/null:/var/lib/letsencrypt
+    restart: always
+
   nginx:
     build:
       context: .
       dockerfile: ./nginx/Dockerfile
     container_name: nginx
+    relies_on:
+      - pocketbase
     ports:
       - 80:80
       - 443:443
@@ -13,16 +25,6 @@ services:
     volumes:
       - letsencrypt:/etc/letsencrypt
       - letsencrypt-data:/var/lib/letsencrypt
-
-  pocketbase:
-    build:
-      context: .
-      dockerfile: pocketbase/Dockerfile
-    volumes:
-      - ./pocketbase:/pb/pb_data
-      - ./pocketbase/null:/etc/letsencrypt
-      - ./pocketbase/null:/var/lib/letsencrypt
-    restart: always
 
 volumes:
   letsencrypt:
