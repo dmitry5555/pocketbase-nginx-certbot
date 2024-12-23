@@ -12,10 +12,10 @@ services:
   nginx:
     image: jonasal/nginx-certbot:latest
     restart: unless-stopped
-    environment:
-      - CERTBOT_EMAIL
     env_file:
       - ./nginx-certbot.env
+    environment:
+      - CERTBOT_EMAIL
     ports:
       - 80:80
       - 443:443
