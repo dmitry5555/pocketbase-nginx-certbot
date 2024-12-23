@@ -1,19 +1,24 @@
 #!/bin/bash
-
-# Домен и email для Let's Encrypt
 DOMAIN="db.peth.one"
 EMAIL="mikrolux@gmail.com"
-
-# Путь к сертификатам
 CERT_PATH="/etc/letsencrypt/live/$DOMAIN"
 
-# Генерация/обновление сертификата
+# Запускаем nginx с базовой конфигурацией
+cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.ssl
+sed -i 's/listen 443 ssl/listen 80/g' /etc/nginx/nginx.conf
+sed -i 's/ssl_certificate/# ssl_certificate/g' /etc/nginx/nginx.conf
+nginx
+
+# Генерируем/обновляем сертификат
 if [ -d "$CERT_PATH" ]; then
-  echo "Сертификаты уже существуют. Проверяем необходимость обновления..."
-  certbot renew --nginx --quiet
+    certbot renew --nginx --quiet
 else
-  echo "Сертификаты не найдены. Генерируем новые..."
-  certbot --nginx --non-interactive --agree-tos --email $EMAIL -d $DOMAIN
+    certbot --nginx --non-interactive --agree-tos --email $EMAIL -d $DOMAIN
 fi
 
-echo "Сертификаты успешно обработаны!"
+# Восстанавливаем SSL конфигурацию
+cp /etc/nginx/nginx.conf.ssl /etc/nginx/nginx.conf
+nginx -s stop
+
+# Запускаем nginx с SSL
+exec nginx -g 'daemon off;'
