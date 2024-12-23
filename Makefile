@@ -1,7 +1,7 @@
 
 # build compose
 up:
-	docker-compose up -d
+	docker-compose up --build -d
 
 # stop compose
 down:
