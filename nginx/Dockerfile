@@ -9,11 +9,10 @@ RUN chmod +x /init-letsencrypt.sh
 
 VOLUME ["/etc/letsencrypt", "/var/lib/letsencrypt"]
 
-RUN mkdir -p /var/www/certbot
-RUN mkdir -p ./certbot/www
-RUN mkdir -p ./certbot/conf
+# RUN mkdir -p /var/www/certbot
+# RUN mkdir -p ./certbot/www
+# RUN mkdir -p ./certbot/conf
 
 EXPOSE 80 443
 
 CMD ["/bin/bash", "-c", "/init-letsencrypt.sh && nginx -g 'daemon off;'"]
-# CMD ["nginx", "-g", "daemon off;"]

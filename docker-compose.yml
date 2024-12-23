@@ -7,25 +7,21 @@ services:
       dockerfile: pocketbase/Dockerfile
     volumes:
       - ./pocketbase:/pb/pb_data
-      # - ./pocketbase/null:/etc/letsencrypt
-      # - ./pocketbase/null:/var/lib/letsencrypt
     restart: always
 
-  nginx:
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
-    container_name: nginx
-    depends_on:
-      - pocketbase
-    ports:
-      - 80:80
-      - 443:443
-    restart: always
-    volumes:
-      - letsencrypt:/etc/letsencrypt
-      - letsencrypt-data:/var/lib/letsencrypt
+    nginx:
+      image: jonasal/nginx-certbot:latest
+      restart: unless-stopped
+      environment:
+        - CERTBOT_EMAIL
+      env_file:
+        - ./nginx-certbot.env
+      ports:
+        - 80:80
+        - 443:443
+      volumes:                                    # Storage can be either a
+        - nginx_secrets:/etc/letsencrypt          # Docker managed volume (see list at the bottom)
+        - ./user_conf.d:/etc/nginx/user_conf.d    # or a host mount with a relative or full path.
 
 volumes:
-  letsencrypt:
-  letsencrypt-data:
+  nginx_secrets:
