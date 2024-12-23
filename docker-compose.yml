@@ -9,21 +9,21 @@ services:
       - ./pocketbase:/pb/pb_data
     restart: always
 
-    nginx:
-      build:
-        context: .
-      image: jonasal/nginx-certbot:latest
-      restart: unless-stopped
-      environment:
-        - CERTBOT_EMAIL
-      env_file:
-        - ./nginx-certbot.env
-      ports:
-        - 80:80
-        - 443:443
-      volumes:                                    # Storage can be either a
-        - nginx_secrets:/etc/letsencrypt          # Docker managed volume (see list at the bottom)
-        - ./nginx/user_conf.d:/etc/nginx/user_conf.d    # or a host mount with a relative or full path.
+  nginx:
+    build:
+      context: .
+    image: jonasal/nginx-certbot:latest
+    restart: unless-stopped
+    environment:
+      - CERTBOT_EMAIL
+    env_file:
+      - ./nginx-certbot.env
+    ports:
+      - 80:80
+      - 443:443
+    volumes:                                    # Storage can be either a
+      - nginx_secrets:/etc/letsencrypt          # Docker managed volume (see list at the bottom)
+      - ./nginx/user_conf.d:/etc/nginx/user_conf.d    # or a host mount with a relative or full path.
 
 volumes:
   nginx_secrets:
