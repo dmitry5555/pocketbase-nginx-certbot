@@ -10,16 +10,34 @@ services:
     restart: always
 
   nginx:
-    image: jonasal/nginx-certbot:latest
-    restart: unless-stopped
-    env_file:
-      - ./nginx-certbot.env
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - certbot
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/letsencrypt
+      - ./html:/usr/share/nginx/html
     ports:
-      - 80:80
-      - 443:443
-    volumes:                                    # Storage can be either a
-      - nginx_secrets:/etc/letsencrypt          # Docker managed volume (see list at the bottom)
-      - ./nginx/user_conf.d:/etc/nginx/user_conf.d    # or a host mount with a relative or full path.
+      - "80:80"
+      - "443:443"
+    restart: always
 
-volumes:
-  nginx_secrets:
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    depends_on:
+      - nginx
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./html:/data/letsencrypt
+    entrypoint: >
+      sh -c "
+        trap exit TERM;
+        while :; do
+          certbot certonly --non-interactive --agree-tos --webroot -w /data/letsencrypt
+          -d db.peth-one.com --email mikrolux@gmail.com;
+          sleep 12h;
+        done
+      "
+    restart: always
