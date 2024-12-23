@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: ./nginx/Dockerfile
     container_name: nginx
-    relies_on:
+    depends_on:
       - pocketbase
     ports:
       - 80:80
