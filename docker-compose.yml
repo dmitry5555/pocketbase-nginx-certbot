@@ -12,10 +12,11 @@ services:
   nginx:
     image: jonasal/nginx-certbot:latest
     restart: unless-stopped
-    env_file:
-      - ./nginx-certbot.env
+    # env_file:
+    #   - ./nginx-certbot.env
     environment:
-      - CERTBOT_EMAIL
+      - DOMAIN=db.peth.one
+      - CERTBOT_EMAIL=mikrolux@gmail.com
     ports:
       - 80:80
       - 443:443
