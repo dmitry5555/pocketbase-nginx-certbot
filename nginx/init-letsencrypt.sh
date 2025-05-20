@@ -1,9 +1,5 @@
 #!/bin/bash
-if [ -z "$DOMAIN" ]; then
-    echo "ERROR: DOMAIN environment variable is not set"
-    exit 1
-fi
-
+DOMAIN=${DOMAIN}
 EMAIL="mikrolux@gmail.com"
 CERT_PATH="/etc/letsencrypt/live/$DOMAIN"
 
