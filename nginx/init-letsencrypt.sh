@@ -3,6 +3,9 @@ DOMAIN=${DOMAIN}
 EMAIL="mikrolux@gmail.com"
 CERT_PATH="/etc/letsencrypt/live/$DOMAIN"
 
+# Заменяем переменные в конфигурации
+sed -i "s/\${DOMAIN}/$DOMAIN/g" /etc/nginx/nginx.conf
+
 # Запускаем nginx с базовой конфигурацией
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.ssl
 sed -i 's/listen 443 ssl/listen 80/g' /etc/nginx/nginx.conf
