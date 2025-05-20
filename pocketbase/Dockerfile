@@ -1,6 +1,6 @@
-FROM alpine:3.12
+FROM alpine:3.21
 
-ADD https://github.com/pocketbase/pocketbase/releases/download/v0.23.12/pocketbase_0.23.12_linux_amd64.zip /tmp/pb.zip
+ADD https://github.com/pocketbase/pocketbase/releases/download/v0.28.1/pocketbase_0.28.1_linux_amd64.zip /tmp/pb.zip
 RUN mkdir -p /pb && unzip /tmp/pb.zip -d /pb/ && chmod +x /pb/pocketbase
 
 # Указание места для хранения данных

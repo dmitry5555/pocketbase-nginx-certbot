@@ -1,5 +1,5 @@
 #!/bin/bash
-DOMAIN="db.peth.one"
+DOMAIN=${DOMAIN}
 EMAIL="mikrolux@gmail.com"
 CERT_PATH="/etc/letsencrypt/live/$DOMAIN"
 
