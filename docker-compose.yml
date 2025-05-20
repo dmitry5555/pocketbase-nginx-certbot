@@ -6,8 +6,8 @@ services:
     volumes:
       - ./pocketbase:/pb/pb_data
     restart: always
-    environment:
-      - DOMAIN=4594280.ddns.net
+    env_file:
+      - .env
 
   nginx:
     build:
@@ -23,8 +23,8 @@ services:
     volumes:
       - letsencrypt:/etc/letsencrypt
       - letsencrypt-data:/var/lib/letsencrypt
-    environment:
-      - DOMAIN=4594280.ddns.net
+    env_file:
+      - .env
 
 volumes:
   letsencrypt:
